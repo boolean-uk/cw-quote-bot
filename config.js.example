@@ -1,0 +1,10 @@
+window._CONFIG_ = {
+    API_BASE_URL: 'https://api.openai.com/v1',
+    API_KEY: '',
+    GPT_MODEL: 'gpt-3.5-turbo'
+};
+
+// 1. Get an API key from openai.com
+// 2. Update the value of the API_KEY property above to be that API key you were given
+// 3. Change the name of this file to config.js instead of config.js.example
+// 4. Run index.html
