@@ -12,26 +12,61 @@ modalClose.addEventListener('click', function() {
     modal.classList.add('hidden');
 });
 
+// Create a function that generates an AI prompt
+function getRandomAction() {
+    // Define a list of AI actions that we want the character to perform
+    const actions = [
+      'say hello in your most iconic way',
+      'give fashion advice based on your tastes',
+      'share a summary of your last epic adventure',
+      'reveal your hopes and dreams to me',
+      'tell me who is your best friend',
+      'write your linkedin bio'
+    ];
+
+    // Generate a random number between 0 and the length of the actions list so we can choose one at random
+    const randIdx = Math.floor(Math.random() * actions.length);
+    return actions[randIdx];
+}
+
 // Create a function that will run when we click on a character
 async function playCharacter(character) {
     // Remove the hidden class from the loading image so it shows on screen
     loading.classList.remove('hidden');
 
-    // Define some content to display in the modal. We'll switch this out with AI dialog later!
-    const content = 'You clicked a character!'
+    // Get a random action by running the function we created
+    const action = getRandomAction();
 
-    // Add that content, as well as the character name, into the modal HTML
+    // Send a prompt to ChatGPT
+    const response = await fetch(_CONFIG_.API_BASE_URL + '/chat/completions', {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${_CONFIG_.API_KEY}`,
+        },
+        method: 'POST',
+        body: JSON.stringify({
+            model: _CONFIG_.GPT_MODEL,
+            messages: [
+                {
+                    role: 'user',
+                    content: `You are ${character} and should ${action} in a maximum of 100 characters without breaking character`
+                },
+            ]
+        })
+    })
+
+    const jsonData = await response.json();
+    const content = jsonData.choices[0].message.content;
+
+    // Add the response that ChatGPT gave us to the modal HTML
     modalContent.innerHTML = `
         <h2>${character}</h2>
         <p>${content}</p>
-        <code>Well done!</code>
+        <code>Character: ${character}, Action: ${action}</code>
     `;
 
-    // After 2 seconds, remove the hidden class from the modal so it shows on screen and hide the loading image
-    setTimeout(function () {
-        modal.classList.remove('hidden');
-        loading.classList.add('hidden');
-    }, 2000)
+    modal.classList.remove('hidden');
+    loading.classList.add('hidden');
 }
 
 // Create a function to run when the page loads
