@@ -75,3 +75,47 @@ main {
 .hidden {
     display: none;
 }
+
+.modal {
+    background-color: rgb(161 210 255 / 80%);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    padding: 24px;
+}
+
+.modal-box {
+    position: relative;
+    width: 100%;
+    max-width: 512px;
+    margin: 24px auto;
+    background-color: #ffffff; 
+    border: 2px solid #1212b2;
+}
+
+.modal-content {
+    padding: 16px;
+}
+
+.modal-close {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    height: 36px;
+    width: 36px;
+    background-color: #ffaafb;
+    border: 2px solid #1212b2;
+    border-radius: 50%;
+}
+
+.modal-content > code {
+    display: block;
+    font-size: 10px;
+    color: #6885e0;
+}
